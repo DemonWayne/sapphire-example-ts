@@ -1,0 +1,18 @@
+{
+  "extends": "@sapphire/ts-config",
+  "compilerOptions": {
+    "allowJs": true,
+    "outDir": "../dist",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "#utils/*": ["utils/*"],
+      "#lib/*": ["lib/*"],
+      "#models/*": ["models/*"],
+      "#root/*": ["*"]
+    },
+		"composite": true
+  },
+  "include": [".", "./**/*.json"],
+  "exclude": ["./tsconfig.json"]
+}
