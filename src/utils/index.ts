@@ -4,7 +4,6 @@ import { resolveKey } from '@sapphire/plugin-i18next';
 
 exports.sendArgsError = async (message: Message, Args: any) => {
   const args = [];
-  console.log(Args);
   for (const arg of Args) {
     if (arg && arg.name) args.push(arg);
   }
