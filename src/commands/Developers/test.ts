@@ -2,7 +2,7 @@ import { ApplyOptions } from '@sapphire/decorators';
 import { Args, Command } from '@sapphire/framework';
 import { sendLocalized } from '@sapphire/plugin-i18next';
 import type { Message } from 'discord.js';
-const { sendArgsError } = require('#utils/index');
+import { sendArgsError } from '#utils/index';
 
 @ApplyOptions<Command.Options>({ description: 'Test command', preconditions: ['devOnly'] })
 export class UserCommand extends Command {
@@ -11,6 +11,6 @@ export class UserCommand extends Command {
     const arg = await args.pick('string').catch(() => sendArgsError(message, Arguments));
     if (!arg) return;
 
-    sendLocalized(message, { keys: 'test:success', formatOptions: { arg: arg } });
+    await sendLocalized(message, { keys: 'test:success', formatOptions: { arg } });
   }
 }

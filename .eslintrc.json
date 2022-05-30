@@ -1,0 +1,10 @@
+{
+	"extends": "@sapphire",
+	"rules": {
+		"@typescript-eslint/no-base-to-string": 0,
+		"@typescript-eslint/no-throw-literal": 0
+	},
+	"parserOptions": {
+		"warnOnUnsupportedTypeScriptVersion": false
+	}
+}

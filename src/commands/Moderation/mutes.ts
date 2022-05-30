@@ -3,7 +3,7 @@ import { Args, Command } from '@sapphire/framework';
 import { fetch, FetchResultTypes, FetchMethods } from '@sapphire/fetch';
 import { resolveKey } from '@sapphire/plugin-i18next';
 import { Message, MessageEmbed } from 'discord.js';
-const { sendArgsError } = require('#utils/index');
+import { sendArgsError } from '#utils/index';
 
 @ApplyOptions<Command.Options>({ description: 'Mutes list', preconditions: ['GuildOnly', 'modOnly'] })
 export class UserCommand extends Command {
@@ -13,7 +13,7 @@ export class UserCommand extends Command {
     const member = await args.pick('member').catch(() => sendArgsError(message, Arguments));
     if (!member) return;
 
-    const { mutes } = await fetch(
+    const { mutes }: any = await fetch(
       'http://localhost:4000/mutes',
       {
         method: FetchMethods.Post,
@@ -28,7 +28,7 @@ export class UserCommand extends Command {
       FetchResultTypes.JSON,
     );
 
-    message.reply({
+    await message.reply({
       embeds: [
         new MessageEmbed()
           .setTitle(`${await resolveKey(message, 'mutes:title')} ${member.displayName || member.user.username}`)

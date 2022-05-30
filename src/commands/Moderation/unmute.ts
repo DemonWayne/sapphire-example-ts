@@ -2,8 +2,8 @@ import { ApplyOptions } from '@sapphire/decorators';
 import { Args, Command } from '@sapphire/framework';
 import { sendLocalized } from '@sapphire/plugin-i18next';
 import type { Message } from 'discord.js';
-const { sendArgsError } = require('#utils/index');
-const infractions = require('#models/infractions');
+import { sendArgsError } from '#utils/index';
+import infractions from '#models/infractions';
 
 @ApplyOptions<Command.Options>({ description: 'Unmute command', preconditions: ['GuildOnly', 'modOnly'] })
 export class UserCommand extends Command {
@@ -13,22 +13,20 @@ export class UserCommand extends Command {
     if (!member) return;
 
     if (!member.isCommunicationDisabled()) {
-      sendLocalized(message, {
-        keys: 'unmute:erorr_nomute',
-      });
+      await sendLocalized(message, 'unmute:erorr_nomute');
       return;
     }
 
-    const mute = await infractions.find({
+    const mutes: Array<object> = await infractions.find({
       guildId: message.guild!.id,
       user: member.id,
     });
 
-    await infractions.deleteOne(mute.pop());
+    await infractions.deleteOne(mutes.pop());
 
     member.timeout(null, `Unmuted by ${message.author.tag}`);
 
-    sendLocalized(message, {
+    await sendLocalized(message, {
       keys: 'unmute:success',
       formatOptions: {
         user: member.toString(),

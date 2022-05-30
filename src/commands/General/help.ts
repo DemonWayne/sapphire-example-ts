@@ -4,10 +4,10 @@ import { EmbedFieldData, Message, MessageEmbed } from 'discord.js';
 
 @ApplyOptions<Command.Options>({ description: 'Help command' })
 export class UserCommand extends Command {
-  public messageRun(message: Message) {
+  public async messageRun(message: Message) {
     const commandsWithoutSort = this.container.stores.get('commands');
 
-    const DEVS = process.env.DEVS;
+    const { DEVS } = process.env;
     const isDev = DEVS!.includes(message.author.id);
     const fields: Array<EmbedFieldData> = [];
     commandsWithoutSort.forEach(cmd => {
@@ -18,11 +18,11 @@ export class UserCommand extends Command {
           name: `${cmd.category}`,
           value: `${cmd.enabled ? '🟢' : '🔴'} ${cmd.name} - ${cmd.description}`,
         });
-      } else {
+      } else if (field) {
         field.value += `\n${cmd.enabled ? '🟢' : '🔴'} ${cmd.name} - ${cmd.description}`;
       }
     });
 
-    message.reply({ embeds: [new MessageEmbed().setTitle('Help').setFields(fields)] });
+    await message.reply({ embeds: [new MessageEmbed().setTitle('Help').setFields(fields)] });
   }
 }

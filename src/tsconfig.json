@@ -11,7 +11,8 @@
       "#models/*": ["models/*"],
       "#root/*": ["*"]
     },
-		"composite": true
+		"composite": true,
+    "moduleResolution": "Node",
   },
   "include": [".", "./**/*.json"],
   "exclude": ["./tsconfig.json"]

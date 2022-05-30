@@ -1,7 +1,7 @@
 import { SapphireClient } from '@sapphire/framework';
 import type { InternationalizationContext } from '@sapphire/plugin-i18next';
 import { connect } from 'mongoose';
-import guild from '../models/guild';
+import guild from '#models/guild';
 
 export class AdvancedClient extends SapphireClient {
   public constructor() {
@@ -41,8 +41,8 @@ export class AdvancedClient extends SapphireClient {
     });
   }
 
-  public async login(token?: string) {
+  public login() {
     this.connectDatabase();
-    return await super.login(token);
+    return super.login();
   }
 }

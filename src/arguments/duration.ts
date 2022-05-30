@@ -8,7 +8,7 @@ export class duration extends Argument {
     if (!isNaN(date.getTime()) && date.getTime() > Date.now()) return this.ok(date);
     return this.error({ parameter, identifier: 'StringNotDuration', context });
   }
-};
+}
 
 declare module '@sapphire/framework' {
   interface ArgType {

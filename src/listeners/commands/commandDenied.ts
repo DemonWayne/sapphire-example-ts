@@ -11,7 +11,7 @@ export class CommandDeniedListener extends Listener<typeof Events.CommandDenied>
     }
     if (error.identifier === 'preconditionCooldown') {
       const context = error.context as any;
-      const timeLeft = parseInt(context.remaining) / 1000;
+      const timeLeft = parseInt(context.remaining, 10) / 1000;
       await sendLocalized(message, {
         keys: 'preconditions:cooldown',
         formatOptions: {

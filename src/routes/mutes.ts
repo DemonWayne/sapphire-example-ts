@@ -1,6 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { ApiRequest, ApiResponse, methods, Route } from '@sapphire/plugin-api';
-const infractions = require('#models/infractions');
+import infractions from '#models/infractions';
 
 @ApplyOptions<Route.Options>({ route: 'mutes' })
 export class MutesRoute extends Route {
@@ -19,9 +19,9 @@ export class MutesRoute extends Route {
   }
 
   public async [methods.POST](_request: ApiRequest, response: ApiResponse) {
-    const body: any = _request.body;
+    const { body }: any = _request;
     const { guild, user } = body;
-    const mutes = await infractions.find({ guildId: guild, type: 0, user: user });
+    const mutes = await infractions.find({ guildId: guild, type: 0, user });
     response.json({
       mutes: mutes.map(
         (mute: any) => `${mute.reason} | ${mute.createdAt.toLocaleString()} | ${mute.expiresAt.toLocaleString()}`,

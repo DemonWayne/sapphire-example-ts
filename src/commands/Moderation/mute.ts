@@ -2,8 +2,8 @@ import { ApplyOptions } from '@sapphire/decorators';
 import { Args, Command } from '@sapphire/framework';
 import { sendLocalized } from '@sapphire/plugin-i18next';
 import type { Message } from 'discord.js';
-const infractions = require('#models/infractions');
-const { sendArgsError, resolveDuration } = require('#utils/index');
+import infractions from '#models/infractions';
+import { sendArgsError, resolveDuration } from '#utils/index';
 
 @ApplyOptions<Command.Options>({ description: 'Mute command', preconditions: ['GuildOnly', 'modOnly'] })
 export class UserCommand extends Command {
@@ -23,16 +23,16 @@ export class UserCommand extends Command {
     const duration = resolveDuration(durationString);
 
     if (!member.moderatable) {
-      sendLocalized(message, {
+      await sendLocalized(message, {
         keys: 'mute:erorr',
       });
       return;
     }
 
     if (member.isCommunicationDisabled()) {
-      sendLocalized(message, {
+      await sendLocalized(message, {
         keys: 'mute:erorr_muted',
-        formatOptions: { timestamp: `<t:${Math.ceil(member.communicationDisabledUntil / 1000)}:F>` },
+        formatOptions: { timestamp: `<t:${Math.ceil(member.communicationDisabledUntilTimestamp / 1000)}:F>` },
       });
       return;
     }
@@ -47,7 +47,7 @@ export class UserCommand extends Command {
       reason: reason.toString(),
     });
 
-    sendLocalized(message, {
+    await sendLocalized(message, {
       keys: 'mute:success',
       formatOptions: {
         user: member.toString(),

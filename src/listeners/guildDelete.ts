@@ -1,6 +1,6 @@
 import { Listener } from '@sapphire/framework';
 import type { Guild } from 'discord.js';
-const Guilds = require('../models/guild');
+import Guilds from '#models/guild';
 
 export class GulidDeleteListener extends Listener {
   public async run(guild: Guild) {

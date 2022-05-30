@@ -2,7 +2,7 @@ import { MessageEmbed } from 'discord.js';
 import type { Message } from 'discord.js';
 import { resolveKey } from '@sapphire/plugin-i18next';
 
-exports.sendArgsError = async (message: Message, Args: any) => {
+export const sendArgsError = async (message: Message, Args: any) => {
   const args = [];
   for (const arg of Args) {
     if (arg && arg.name) args.push(arg);
@@ -20,7 +20,7 @@ exports.sendArgsError = async (message: Message, Args: any) => {
     lastString.push(`**__\`${a.name}\`__:** \`${await resolveKey(message, `args:${a.type}`)}\``);
   }
 
-  channel.send({
+  void channel.send({
     embeds: [
       new MessageEmbed()
         .setColor('RED')
@@ -30,6 +30,6 @@ exports.sendArgsError = async (message: Message, Args: any) => {
   });
 };
 
-exports.resolveDuration = (duration: String) =>
-  parseInt(duration.slice(0, -1)) *
+export const resolveDuration = (duration: string) =>
+  parseInt(duration.slice(0, -1), 10) *
   { ms: 1, s: 1000, m: 1000 * 60, h: 1000 * 60 * 60, d: 1000 * 60 * 60 * 24 }[duration[duration.length - 1]]!;
